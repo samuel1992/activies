@@ -32,9 +32,9 @@
 <!--exibindo as tarefas através de um colapse-->
 <p><button type="button" class="btn btn-lg btn-primary" data-toggle="collapse" data-target="#demo">
  Tarefas &raquo;
-</button></p><div id="demo" class="collapse">
-<div class="panel-group" id="accordion">
-{% for task in latest_task_list %}
+</button></p><div id="demo" class="collapse in" ><!--botao que inicia o acordion-->
+<div class="panel-group" id="accordion"><!--collapse-->
+{% for task in tasks %}
   <div class="panel panel-default">
      <div class="panel-heading">
       <h4 class="panel-title">
@@ -48,10 +48,26 @@
         {{task.description}}<br/><font size="0.5">{{task.pub_date}}</font>
       </div>
   </div>
-</div><!--/colapse -->
+</div>
 {% endfor %}
-</div>
-</div>
+<p>
+  <div class="btn-group"><!--paginacao-->
+  {%if tasks.has_previous%}
+    <a href="?page={{tasks.previous_page_number}}"><button type="button" class="btn btn-default">Anterior</button></a>
+  {%endif%}
+      {% for pagina in tasks.paginator.page_range %}
+        {% ifequal pagina tasks.number %}
+         <a href="?page={{ pagina }}"><button type="button" class="btn btn-default active">{{pagina}}</button></a>
+        {% else %}
+         <a href="?page={{ pagina }}"><button type="button" class="btn btn-default">{{pagina}}</button></a>
+        {% endifequal %}
+      {% endfor %}
+  {%if tasks.has_next%}
+    <a href="?page={{tasks.next_page_number}}"><button type="button" class="btn btn-default">Próxima</button></a>
+  {%endif%}
+  </div><!--/paginacao-->
+</div><!--/colapse-->
+</p>
           </p>
           <p>
           <button type="button" class="btn btn-lg btn-default" id="cadastrotask"
@@ -61,8 +77,8 @@
             <span class="glyphicon glyphicon-plus"></span>
           </button>
           </p>
+          
           </div><!-- /jumbotron -->
-
     </div><!-- /container -->
 
     <!-- Bootstrap core JavaScript
