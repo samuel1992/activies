@@ -1,0 +1,55 @@
+<form method="post" id="form_task" action="" class="form-horizontal" onsubmit="return valida(this);" >
+<!--carregando o token para o formuário-->
+{% csrf_token %}
+<!--entrando com valores que se baseiam nas ID`s dos itens de "form"-->
+    <p>
+      <div class="form-group" id="valid_title">
+      <input for="form.title.auto_id" name="title" type="text" class="form-control maiusculo" placeholder="Título da tarefa">
+      </div>
+      <div class="form-group" id="valid_description">
+      <textarea for="form.description.auto_id" name="description" class="form-control" rows="3" placeholder="Descrição da tarefa"></textarea>
+      </div>
+      <input type="submit" class="btn btn-default btn-block btn-xs" value="Criar">
+    </p>
+</form>
+
+<script type="text/javascript">
+  
+function valida(form){
+  if(form.title.value==""){
+    $("#valid_title").addClass("has-error");
+    return false;
+  }  
+  if(form.description.value==""){
+    $("#valid_description").addClass("has-error");
+    return false; 
+  }
+}
+
+//Função para travar caixa alta na entrada do título, class=maiusculo
+jQuery(document).ready(function($) {  
+ // Chamada da funcao upperText(); ao carregar a pagina
+ upperText();
+ // Funcao que faz o texto ficar em uppercase
+ function upperText() {
+// Para tratar o colar
+ $(".maiusculo").bind('paste', function(e) {
+ var el = $(this);
+ setTimeout(function() {
+ var text = $(el).val();
+ el.val(text.toUpperCase());
+ }, 100);
+ });
+ 
+// Para tratar quando é digitado
+ $(".maiusculo").keypress(function() {
+ var el = $(this);
+ setTimeout(function() {
+ var text = $(el).val();
+ el.val(text.toUpperCase());
+ }, 100);
+ });
+ }
+ });
+
+</script>

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block tasks %}
+{% for task in tasks %}
+<div class="panel-group" id="accordion"><!--collapse-->
+  <div class="panel panel-default">
+     <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#{{task.id}}">
+	  <div class="row">
+	    <div class="col-md-11">
+	      <center>{{task.title}}</center>
+	    </div>
+	    <div class="col-md-1">
+	      <a href={% url "delete_task" task.id %}>
+		<button type="button" class="btn btn-danger btn-xs">Delete</button></a>
+	    </div>
+	  </div>
+        </a>
+      </h4>
+     </div>
+    <div id="{{task.id}}" class="panel-collapse collapse">
+      <div class="panel-body">
+        {{task.description}}<br/>
+	<font size="0.5">{{task.pub_date}}</font>
+      </div>
+  </div>
+    </div>
+</div><!--/botao do acordion-->
+{% endfor %}
+{% endblock %}

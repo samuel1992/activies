@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <link rel="shortcut icon" href="{{STATIC_URL}}ico/favicon.png">
+    <!-- Bootstrap core CSS
+    ================================================== -->
+    <link href="{{STATIC_URL}}/css/bootstrap.css" rel="stylesheet">
+    <link href="{{STATIC_URL}}/css/bootstrap-theme.css" rel="stylesheet">
+    <title>Activities</title>
+  </head>
+<body>
+
+<!-- Fixed navbar -->
+    <div class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+           <a class="navbar-brand" href="#">Activities</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'contato' %}">Contato</a></li>
+          </ul>
+         </div><!--/.nav-collapse -->
+      </div>
+    </div>
+    
+<div class="container">
+      <!-- Main component for a primary marketing message or call to action -->
+    <div class="jumbotron">
+        <h1>Suas tarefas atuais</h1>
+<!--exibindo as tarefas através de um colapse-->
+<p>
+    <button type="button" class="btn btn-lg btn-primary" data-toggle="collapse" data-target="#demo">
+    Tarefas &raquo;
+    </button>
+</p>
+<div id="demo" class="collapse in" ><!--botao que inicia o acordion-->
+    
+  {% block tasks %}
+  <!-- corpo com  a lista de tasks (tasks.html) -->
+  {% endblock %}
+</div>
+<p><ul class="pagination"><!--paginacao-->
+    {% if tasks.has_previous %}
+    <li><a class="btn btn-default" href="?page={{tasks.previous_page_number}}">Anterior</a></li>
+    {% endif %}
+    
+      {% for pagina in tasks.paginator.page_range %}
+	{% ifequal pagina tasks.number %}
+	<li><a class="btn btn-default active" href="?page={{ pagina }}">{{ pagina }}</a></li>
+	{% else %}
+	<li><a class="btn btn-default" href="?page={{ pagina }}">{{ pagina }}</a></li>
+	{% endifequal %}
+      {% endfor %}
+      
+    {% if tasks.has_next %}
+    <li><a class="btn btn-default" href="?page={{tasks.next_page_number}}">Próxima</a></li>
+    {% endif %}
+  </ul><!--/paginacao--></p>  
+
+<p><!-- botão para adicionar nova task -->
+    <button type="button" class="btn btn-lg btn-default" id="cadastrotask"
+    rel="popover"
+    data-placement="right"
+    data-original-title="Cadastre uma nova tarefa">
+        <span class="glyphicon glyphicon-plus"></span>
+    </button>
+</p>
+    </div><!-- /jumbotron -->{% block delete %}{% endblock %}
+</div><!-- /container -->
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="{{STATIC_URL}}/js/jquery.js"></script>
+    <script src="{{STATIC_URL}}/js/bootstrap.min.js"></script>
+    <!--script do topover-->
+    <script type="text/javascript">
+      $('#cadastrotask').popover({
+      html:true,
+      content: function(){
+      return $("#form1").html();
+      }
+    });
+    </script>
+
+    <div id="form1" class=hide>
+    {% include 'new_task.html'%}
+    </div>
+</body>
+</html>

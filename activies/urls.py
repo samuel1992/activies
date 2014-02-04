@@ -1,0 +1,13 @@
+from django.conf.urls import patterns, include, url
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.contrib import admin
+admin.autodiscover()
+
+urlpatterns = patterns('',
+    # Examples:
+    url(r'^$', 'core.views.home', name='home'),
+    url(r'^contato/$', 'core.views.contato', name='contato'),
+    url(r'^delete/(?P<id>\d+)/$', 'core.views.delete_task', name='delete_task'),
+    url(r'^admin/', include(admin.site.urls)),
+)
+urlpatterns += staticfiles_urlpatterns()
