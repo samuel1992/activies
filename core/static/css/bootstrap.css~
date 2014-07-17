@@ -157,7 +157,7 @@ textarea {
   margin: 0;
   font-family: inherit;
   font-size: 100%;
-  resize : none;  
+  resize: none;  
 }
 
 button,
@@ -5822,7 +5822,7 @@ a.list-group-item.active:focus .list-group-item-text {
 }
 
 .panel-primary > .panel-heading + .panel-collapse .panel-body {
-  border-top-color: #428bca;
+  border-top-color: #000;
 }
 
 .panel-primary > .panel-heading > .dropdown .caret {
@@ -7097,3 +7097,13 @@ td.visible-print {
     display: none !important;
   }
 }
+<<<<<<< HEAD
+<<<<<<< HEAD
+
+.maiusculo {
+  text-transform: uppercase;
+}
+=======
+>>>>>>> d60016f9bcc67bcd740e4442f3d3f7b47e936637
+=======
+>>>>>>> origin/master

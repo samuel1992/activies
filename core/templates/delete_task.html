@@ -5,7 +5,9 @@
          {% csrf_token %}
             Deseja realmente deletar a tarefa:<b>{{ dead_task.title }}</b> ?
             <button type="submit" class="btn btn-success btn-xs">Deletar</button>
-            <button type="button" class="btn btn-danger btn-xs" onclick="windows.close">Cancelar</button>
+            <a href="{% url 'home'%}"
+            <button type="button" class="btn btn-danger btn-xs" >Cancelar</button>
+            </a>
         </form>
         </div>
     {% endblock %}

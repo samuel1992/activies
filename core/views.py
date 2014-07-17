@@ -8,7 +8,8 @@ from django.utils import timezone
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 
 def home(request):
-        latest_task_list = Task.objects.all().order_by('-pub_date')
+        #lista de objetos do tipo Task
+        latest_task_list = Task.objects.all().order_by('pub_date')
         paginator = Paginator(latest_task_list, 5)
         #Certificando de que o page request seja um inteiro, caso contrário irá para primeira pagina
         try:
@@ -26,10 +27,21 @@ def home(request):
                 form = TaskForm(request.POST, instance=date)
                 if form.is_valid():
                         form.save()
+                        return HttpResponseRedirect('/')
         else:
                 form = TaskForm(instance=date)
-        return render_to_response("tasks.html",{'form':form,'tasks':tasks,}, context_instance=RequestContext(request))
+        return render_to_response("tasks.html",{'form':form,'tasks':tasks,}, 
+                                                context_instance=RequestContext(request))
 
+def task_done(request,id):
+    item = Task.objects.get(pk=id)
+    if item.done:
+        item.done = False
+        item.save()
+    else:
+        item.done = True
+        item.save()
+    return HttpResponseRedirect("/")
 
 def contato(request):
         return render_to_response("contato.html",{})
@@ -38,7 +50,7 @@ def contato(request):
 def delete_task(request,id):
     dead_task = get_object_or_404(Task, pk=id)
     if request.method=='POST':
-	dead_task.delete()
-	return HttpResponseRedirect("/")
+        dead_task.delete()
+        return HttpResponseRedirect("/")
     return render_to_response("delete_task.html", {"dead_task":dead_task},
-			      context_instance=RequestContext(request))
+			                                     context_instance=RequestContext(request))

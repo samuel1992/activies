@@ -3,18 +3,12 @@
 {% csrf_token %}
 <!--entrando com valores que se baseiam nas ID`s dos itens de "form"-->
     <p>
-
       <div class="form-group" id="valid_title">
       <input for="form.title.auto_id" name="title" type="text" class="form-control maiusculo" placeholder="Título da tarefa">
       </div>
       <div class="form-group" id="valid_description">
       <textarea for="form.description.auto_id" name="description" class="form-control" rows="3" placeholder="Descrição da tarefa"></textarea>
       </div>
-      <div class="form-group {% if form.title.errors %}has-error{% endif %}">
-      <input for="form.title.auto_id" name="title" type="text" class="form-control" placeholder="Título da tarefa">
-      </div>
-      <div class="form-group {% if form.description.errors %}has-error{% endif %}">
-      <textarea for="{{form.description.auto_id}}" name="description" class="form-control" rows="3" placeholder="Descrição da tarefa"></textarea></div>
       <input type="submit" class="btn btn-default btn-block btn-xs" value="Criar">
     </p>
 </form>
