@@ -9,7 +9,7 @@ from django.core.paginator import Paginator, InvalidPage, EmptyPage
 
 def home(request):
         #lista de objetos do tipo Task
-        latest_task_list = Task.objects.all().order_by('pub_date')
+        latest_task_list = Task.objects.filter(done=0)
         paginator = Paginator(latest_task_list, 5)
         #Certificando de que o page request seja um inteiro, caso contrário irá para primeira pagina
         try:
@@ -33,15 +33,42 @@ def home(request):
         return render_to_response("tasks.html",{'form':form,'tasks':tasks,}, 
                                                 context_instance=RequestContext(request))
 
+def home_done(request):
+        #lista de objetos do tipo Task
+        latest_task_list = Task.objects.filter(done=1)
+        paginator = Paginator(latest_task_list, 5)
+        #Certificando de que o page request seja um inteiro, caso contrário irá para primeira pagina
+        try:
+                page = int(request.GET.get('page', '1'))    
+        except ValueError:
+                page = 1
+        #Se o page request estiver fora da lista, irá para ultima pagina
+        try:
+                tasks = paginator.page(page)
+        except (EmptyPage, InvalidPage):
+                tasks = paginator.page(paginator.num_pages)
+        
+        date = Task(pub_date=timezone.now())
+        if request.method == 'POST':
+                form = TaskForm(request.POST, instance=date)
+                if form.is_valid():
+                        form.save()
+                        return HttpResponseRedirect('/')
+        else:
+                form = TaskForm(instance=date)
+        return render_to_response("task_done.html",{'form':form,'tasks':tasks,}, 
+                                                context_instance=RequestContext(request))
+
 def task_done(request,id):
     item = Task.objects.get(pk=id)
     if item.done:
         item.done = False
         item.save()
+        return HttpResponseRedirect("/tasks_done/")
     else:
         item.done = True
         item.save()
-    return HttpResponseRedirect("/")
+        return HttpResponseRedirect("/")
 
 def contato(request):
         return render_to_response("contato.html",{})

@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block tasks %}
+{% for task in tasks %}
+<div class="panel-group" id="accordion"><!--collapse-->
+  <div class="panel panel-default" >
+     <div class="panel-heading"
+        "{%if task.done%}
+          style='background: #DCDCDC no-repeat center center fixed; 
+                -webkit-background-size: cover;
+                -moz-background-size: cover;
+                -o-background-size: cover;
+                background-size: cover;'
+          {%endif%}"
+          >
+
+      <h4 class="panel-title" > 
+
+    <!--titulo-->    
+	  <div class="row">      
+	    <div class="col-md-2">
+          <i>{{task.pub_date|date:"d M Y (H:i)"}}</i>
+      </div>
+      <!--/titulo-->
+
+      <div class="col-md-8">
+         <center><a data-toggle="collapse" data-parent="#accordion" href="#{{task.id}}">{{task.title}}</a></center>
+      </div>
+	   
+	    <div class="col-md-2">
+        <!--BOTAO DE DONE-->
+        {% if task.done %}
+        <a href={% url "task_done" task.id %}>          
+          <button class="btn btn-success btn-xs" onClick="Done('{{task.id}}'')">Not Done</button>
+        </a><!--/BOTAO DE DONE-->
+        {% else %}
+        <a href={% url "task_done" task.id %}>          
+          <button class="btn  btn-xs" onClick="Done('{{task.id}}'')">Done</button>
+        </a><!--/BOTAO DE DONE-->
+        {% endif %}
+        <!--BOTÃO DE DELETE-->
+        <a href={% url "delete_task" task.id %}>          
+          <button type="button" class="btn btn-danger btn-xs">Delete</button>
+        </a><!--/BOTÃO DE DELETE-->
+	    </div>
+	 </div>
+
+      </h4>
+     </div>
+    <div id="{{task.id}}" class="panel-collapse collapse">
+      <div class="panel-body">
+        {{task.description}}<br/>
+	<font size="0.5">{{task.pub_date}}</font>
+      </div>
+  </div>
+    </div>
+</div><!--/botao do acordion-->
+{% endfor %}
+{% endblock %}
